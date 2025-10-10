@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oxygen/app/theme/app_colors.dart';
+import 'package:oxygen/app/theme/app_text_style.dart';
+import 'package:oxygen/modules/home/view/widgets/appoinment_card.dart';
 import 'package:oxygen/modules/home/view/widgets/side_menu.dart';
+import 'package:oxygen/modules/home/view/widgets/stat_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,14 +11,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: Row(
         children: [
+          // Permanent Sidebar
           const SidebarMenu(),
 
+          // Main Content Area
           Expanded(
             child: Column(
               children: [
+                // AppBar
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -38,7 +44,7 @@ class HomePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
-                        children: [
+                        children: const [
                           Text(
                             'Albert Flores',
                             style: TextStyle(
@@ -54,13 +60,16 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(width: 12),
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 20,
-                        backgroundColor: Colors.grey[300],
+                        backgroundColor: Colors.grey,
                       ),
                       PopupMenuButton(
-                        icon: Icon(Icons.more_vert, color: Colors.black54),
-                        itemBuilder: (context) => [
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: Colors.black54,
+                        ),
+                        itemBuilder: (context) => const [
                           PopupMenuItem(value: 1, child: Text('Profile')),
                           PopupMenuItem(value: 2, child: Text('Settings')),
                           PopupMenuItem(value: 3, child: Text('Logout')),
@@ -70,20 +79,160 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
 
+                // Main Content with Header and Search
                 Expanded(
-                  child: Container(
-                    color: Colors.grey.shade50,
-                    child: Column(
+                  child: SingleChildScrollView(
+                    child: Stack(
+                      clipBehavior: Clip.none,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadiusGeometry.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                          child: Container(
-                            height: 222,
-                            width: double.infinity,
-                            color: AppColors.primary,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Blue Header Section
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.fromLTRB(
+                                40,
+                                30,
+                                40,
+                                80,
+                              ),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF0A1F5C),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Register, Manage & Track',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Access, Update and track all patients Update',
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Content below header
+                            Container(
+                              color: Colors.grey.shade50,
+                              padding: const EdgeInsets.fromLTRB(
+                                40,
+                                60,
+                                40,
+                                40,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Statistics',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      StatCard(
+                                        label: "Booked",
+                                        value: "200",
+                                        icon: Icons.wallet,
+                                        iconBgColor:AppColors.info,
+                                        iconColor: AppColors.primaryLight,
+                                      ),
+                                          StatCard(
+                                        label: "Booked",
+                                        value: "200",
+                                        icon: Icons.wallet,
+                                        iconBgColor:AppColors.info,
+                                        iconColor: AppColors.primaryLight,
+                                      ),
+                                        StatCard(
+                                        label: "Booked",
+                                        value: "200",
+                                        icon: Icons.wallet,
+                                        iconBgColor:AppColors.info,
+                                        iconColor: AppColors.primaryLight,
+                                      ),
+                                        
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Text("Todays Appoinments",style: AppTextStyles.h3,),
+                            ),
+                            Row(children: [ProfileCard(),ProfileCard(),ProfileCard()],)
+                          ],
+                        ),
+
+                        Positioned(
+                          top: 150,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Container(
+                              height: 70,
+                              width: 500, 
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(28),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText:
+                                      'Search for patients, doctors, departments, or dates',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey.shade400,
+                                    fontSize: 14,
+                                  ),
+                                  prefixIcon: Container(
+                                    margin: const EdgeInsets.all(10),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFE91E63),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.search,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
