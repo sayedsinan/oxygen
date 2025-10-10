@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 800;
+
+    // Responsive width logic
+    double cardWidth;
+    if (isMobile) {
+      cardWidth = double.infinity;
+    } else if (screenWidth < 1300) {
+      // Between 950 - 1299, fit 2 cards per row with spacing
+      cardWidth = (screenWidth - 64 - 16) / 2; // 64 = padding, 16 = spacing
+      cardWidth = min(cardWidth, 300);
+    } else {
+      cardWidth = 300; // large screens
+    }
+
     return Container(
-      width: 300,
-      height: 300,
-      margin: const EdgeInsets.all(16),
+      width: cardWidth,
+      margin: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(isMobile ? 12 : 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -23,103 +39,166 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Header with profile info
+          // Profile header
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(8),
+            child: isMobile
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.grey[300]!, width: 2),
+                        ),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.greenAccent,
+                          child: Text(
+                            'WW',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Wade Warren',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'ID: 39635',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.grey[300]!, width: 2),
+                        ),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.greenAccent,
+                          child: Text(
+                            'WW',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Wade Warren',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'ID: 39635',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+          ),
+          const SizedBox(height: 8),
+          const Divider(height: 1, color: Colors.grey),
+          const SizedBox(height: 16),
+          // Details
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 24),
             child: Column(
               children: [
-                // Profile picture
-                Row(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey[300]!, width: 2),
-                      ),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green[200],
-                        child: Text(
-                          'WW',
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Token',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      children: [
-                        const Text(
-                          'Wade Warren',
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500)),
+                      Text('08',
                           style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        // ID
-                        Text(
-                          'ID: 39635',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                 ),
-
-                // Name
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Gender',
+                          style: TextStyle(
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500)),
+                      Text('Male',
+                          style: TextStyle(
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Doctor',
+                          style: TextStyle(
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500)),
+                      Text('Arlene McCoy',
+                          style: TextStyle(
+                              fontSize: isMobile ? 14 : 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
               ],
-            ),
-          ),
-          // Divider
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0,right: 10),
-            child: Divider(height: 1, color: Colors.grey[300]),
-          ),
-  
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              children: [
-                _buildDetailRow('Token', '08'),
-                _buildDetailRow('Gender', 'Male'),
-                _buildDetailRow('Doctor', 'Arlene McCoy'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[700],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ],

@@ -6,7 +6,7 @@ class AppTextStyles {
   static const TextStyle h1 = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
+    color: AppColors.white,
     letterSpacing: -0.5,
   );
   

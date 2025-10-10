@@ -7,23 +7,93 @@ class StatisticsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-    
-      padding: const EdgeInsets.fromLTRB(40, 60, 40, 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Statistics', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87)),
-          const SizedBox(height: 20),
-          Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 800;
+
+        return Container(
+          padding: EdgeInsets.fromLTRB(isMobile ? 20 : 40, 60, isMobile ? 20 : 40, 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const StatCard(label: "Booked", value: "200", icon: Icons.wallet, iconBgColor: AppColors.info, iconColor: AppColors.primaryLight),
-              const StatCard(label: "Check In", value: "34", icon: Icons.person, iconBgColor: AppColors.success, iconColor: AppColors.primaryLight),
-              StatCard(label: "Completed", value: "34", icon: Icons.check_circle, iconBgColor: AppColors.success, iconColor: AppColors.primaryLight),
+              const Text(
+                'Statistics',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 20),
+              isMobile
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        StatCard(
+                          label: "Booked",
+                          value: "200",
+                          icon: "assets/credit_card.png",
+                          iconBgColor: AppColors.info,
+                          iconColor: AppColors.primaryLight,
+                        ),
+                        SizedBox(height: 16),
+                        StatCard(
+                          label: "Check In",
+                          value: "34",
+                          icon: "assets/payments.png",
+                          iconBgColor: AppColors.warning,
+                          iconColor: AppColors.primaryLight,
+                        ),
+                        SizedBox(height: 16),
+                        StatCard(
+                          label: "Completed",
+                          value: "34",
+                          icon: "assets/qr_code_2.png",
+                          iconBgColor: AppColors.success,
+                          iconColor: AppColors.primaryLight,
+                        ),
+                      ],
+                    )
+                  : IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: const [
+                          Expanded(
+                            child: StatCard(
+                              label: "Booked",
+                              value: "200",
+                              icon: "assets/credit_card.png",
+                              iconBgColor: AppColors.info,
+                              iconColor: AppColors.primaryLight,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: StatCard(
+                              label: "Check In",
+                              value: "34",
+                              icon: "assets/payments.png",
+                              iconBgColor: AppColors.warning,
+                              iconColor: AppColors.primaryLight,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: StatCard(
+                              label: "Completed",
+                              value: "34",
+                              icon: "assets/qr_code_2.png",
+                              iconBgColor: AppColors.success,
+                              iconColor: AppColors.primaryLight,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

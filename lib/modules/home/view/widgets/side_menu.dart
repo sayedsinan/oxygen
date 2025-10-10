@@ -54,7 +54,7 @@ class SidebarMenu extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          // Top collapse button
+
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -68,39 +68,36 @@ class SidebarMenu extends StatelessWidget {
                 icon: const Icon(Icons.chevron_left),
                 color: Colors.grey.shade600,
                 onPressed: () {
-                  // TODO: Handle collapse
                 },
               ),
             ),
           ),
-
-          // Menu items
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 24),
               children: [
                 _buildMenuItem(
-                  icon: Icons.home_outlined,
+                  icon: "assets/home.png",
                   label: 'Home',
                   isActive: true,
                 ),
                 _buildMenuItem(
-                  icon: Icons.calendar_today_outlined,
+                  icon: "assets/clip.png",
                   label: 'Appointments',
                   isActive: false,
                 ),
                 _buildMenuItem(
-                  icon: Icons.people_outline,
+                  icon: "assets/doctor-01.png",
                   label: 'Doctors',
                   isActive: false,
                 ),
                 _buildMenuItem(
-                  icon: Icons.person_outline,
+                  icon: "assets/patient.png",
                   label: 'Patients',
                   isActive: false,
                 ),
                 _buildMenuItem(
-                  icon: Icons.receipt_outlined,
+                  icon: "assets/invoice-04.png",
                   label: 'Bills',
                   isActive: false,
                 ),
@@ -113,7 +110,7 @@ class SidebarMenu extends StatelessWidget {
   }
 
   Widget _buildMenuItem({
-    required IconData icon,
+    required String icon,
     required String label,
     required bool isActive,
   }) {
@@ -128,11 +125,7 @@ class SidebarMenu extends StatelessWidget {
         color: isActive ? Colors.red.shade50 : Colors.transparent,
       ),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: Colors.grey.shade600,
-          size: 22,
-        ),
+        leading: Image.asset(icon),
         title: Text(
           label,
           style: TextStyle(
