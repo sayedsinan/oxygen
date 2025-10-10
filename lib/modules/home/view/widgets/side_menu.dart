@@ -10,7 +10,7 @@ class SidebarMenu extends StatelessWidget {
     final bool isMobile = screenWidth < 600;
     final bool isTablet = screenWidth >= 600 && screenWidth < 1024;
 
-    // 💡 For smaller devices, use BottomNavigationBar instead of Sidebar
+
     if (isMobile) {
       return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -51,55 +51,59 @@ class SidebarMenu extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: sidebarWidth,
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          right: BorderSide(color: Colors.grey.shade200, width: 1),
+        ),
+      ),
       child: Column(
         children: [
-
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey.shade200),
-              ),
-            ),
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.centerRight,
               child: IconButton(
-                icon: const Icon(Icons.chevron_left),
+                icon: const Icon(Icons.keyboard_double_arrow_left),
                 color: Colors.grey.shade600,
-                onPressed: () {
-                },
+                iconSize: 20,
+                onPressed: () {},
               ),
             ),
           ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               children: [
                 _buildMenuItem(
                   icon: "assets/home.png",
                   label: 'Home',
                   isActive: true,
+                  isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/clip.png",
                   label: 'Appointments',
                   isActive: false,
+                  isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/doctor-01.png",
                   label: 'Doctors',
                   isActive: false,
+                  isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/patient.png",
                   label: 'Patients',
                   isActive: false,
+                  isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/invoice-04.png",
                   label: 'Bills',
                   isActive: false,
+                  isCompact: isTablet,
                 ),
               ],
             ),
@@ -113,30 +117,54 @@ class SidebarMenu extends StatelessWidget {
     required String icon,
     required String label,
     required bool isActive,
+    bool isCompact = false,
   }) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
+      margin: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          // 🔴 Left vertical active indicator
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 3,
+            height: 44,
             color: isActive ? AppColors.accent : Colors.transparent,
-            width: 4,
           ),
-        ),
-        color: isActive ? Colors.red.shade50 : Colors.transparent,
-      ),
-      child: ListTile(
-        leading: Image.asset(icon),
-        title: Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 14,
-            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+          Expanded(
+            child: Container(
+              height: 44,
+              padding: const EdgeInsets.only(left: 12, right: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    icon,
+                    width: 20,
+                    height: 20,
+                    color: isActive ? Colors.black87 : Colors.grey.shade400,
+                  ),
+                  if (!isCompact) const SizedBox(width: 12),
+                  if (!isCompact)
+                    Flexible(
+                      child: Text(
+                        label,
+                        overflow: TextOverflow.clip, 
+                        maxLines: 1,
+                        softWrap: false,
+                        style: TextStyle(
+                          color:
+                              isActive ? Colors.black87 : Colors.grey.shade400,
+                          fontSize: 14,
+                          fontWeight:
+                              isActive ? FontWeight.w600 : FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-        onTap: () {
-          // TODO: Add navigation logic
-        },
+        ],
       ),
     );
   }

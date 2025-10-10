@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:oxygen/modules/home/controller/home_controller.dart';
 import 'package:oxygen/modules/home/view/widgets/date_doctor_list.dart';
 import 'package:oxygen/modules/home/view/widgets/seach_field.dart';
+import 'package:oxygen/modules/home/view/widgets/search_result_list.dart';
 import 'package:oxygen/modules/home/view/widgets/selected_chips.dart';
 
 class SearchOverlayBar extends StatelessWidget {
@@ -18,54 +19,60 @@ class SearchOverlayBar extends StatelessWidget {
     return Obx(() {
       if (!controller.showSearchOverlay.value) return const SizedBox.shrink();
 
+      final _ = controller.selectedDoctor.value;
+      final __ = controller.selectedDate.value;
+      final ___ = controller.selectedPatient.value;
+      final ____ = controller.searchQuery.value;
+
       return Stack(
         children: [
-          // Background dim
-          GestureDetector(
-            onTap: () => controller.toggleOverlay(false),
-            child: Container(color: Colors.black.withOpacity(0.4)),
-          ),
 
-          // Selected Chips + Book Button
-          Positioned(
-            top: 100,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SelectedChipsRow(controller: controller, width: bubbleWidth),
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () => controller.toggleOverlay(false),
+              child: Container(color: Colors.black.withOpacity(0.4)),
             ),
           ),
 
-          // Search Field Bubble
+
+          Positioned(
+            top: 90,
+            left: (width - bubbleWidth) / 2,
+            width: bubbleWidth,
+            child: SelectedChipsRow(
+              controller: controller,
+              width: bubbleWidth,
+            ),
+          ),
+
           Positioned(
             top: 160,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SearchFieldBubble(controller: controller, width: bubbleWidth),
+            left: (width - bubbleWidth) / 2,
+            width: bubbleWidth,
+            child: SearchFieldBubble(
+              controller: controller,
+              width: bubbleWidth,
             ),
           ),
-
-          // Combined Bubble: Date Selector + Doctors List
           Positioned(
             top: 250,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CombinedBubble(controller: controller, width: bubbleWidth, height: 400),
-            ),
+            left: (width - bubbleWidth) / 2,
+            width: bubbleWidth,
+            height: 400,
+            child: controller.searchQuery.isEmpty
+                ? CombinedBubble(
+                    controller: controller,
+                    width: bubbleWidth,
+                    height: 400,
+                  )
+                : SearchResultsList(
+                    controller: controller,
+                    width: bubbleWidth,
+                    height: 400,
+                  ),
           ),
         ],
       );
     });
   }
 }
-
-/// Selected Chips + Book Button
-
-/// Search Field Bubble
-
-/// Combined Bubble: Date Selector + Doctors List
-
-/// Date Selector
-/// Doctors List

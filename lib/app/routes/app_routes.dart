@@ -4,5 +4,5 @@ class AppRoutes {
   static const APPOINTMENTS = '/appointments';
   static const DOCTORS = '/doctors';
   static const PATIENTS = '/patients';
-  static const BILLS = '/bills';
+  
 }

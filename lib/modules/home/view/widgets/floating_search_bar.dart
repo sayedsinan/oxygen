@@ -35,7 +35,7 @@ class FloatingSearchBar extends StatelessWidget {
                   child: const Icon(Icons.search, color: Colors.white, size: 20),
                 ),
                 const Expanded(
-                  child: Text('Search for patients, doctors, departments...', style: TextStyle(color: Colors.grey)),
+                  child: Text('Search for patients, doctors, departments, or dates', style: TextStyle(color: Colors.grey)),
                 ),
               ],
             ),

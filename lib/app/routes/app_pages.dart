@@ -5,11 +5,6 @@ import 'app_routes.dart';
 
 class AppPages {
   static final pages = [
-    GetPage(
-      name: AppRoutes.HOME,
-      page: () => HomePage(),
-      // binding: HomeBinding(),
-    ),
-   
+    GetPage(name: AppRoutes.HOME, page: () => HomePage()),
   ];
 }

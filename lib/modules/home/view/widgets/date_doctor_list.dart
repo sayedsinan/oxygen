@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oxygen/modules/home/controller/home_controller.dart';
 import 'package:oxygen/modules/home/view/widgets/date_selector.dart';
 import 'package:oxygen/modules/home/view/widgets/doctor_list.dart';
+import 'package:oxygen/modules/home/view/widgets/search_history_result.dart';
 
 class CombinedBubble extends StatelessWidget {
   final HomeController controller;
@@ -27,6 +28,7 @@ class CombinedBubble extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SearchHistorySection(controller: controller),
             DateSelector(controller: controller),
             const SizedBox(height: 16),
             DoctorsList(controller: controller),

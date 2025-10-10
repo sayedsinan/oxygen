@@ -28,7 +28,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             const Spacer(),
             const UserInfo(),
             const SizedBox(width: 12),
-            const CircleAvatar(radius: 20, backgroundColor: Colors.grey),
+            const CircleAvatar(radius: 20, backgroundColor: Colors.grey,backgroundImage: AssetImage("assets/image (1).png"),),
             const UserMenu(),
           ],
         ),

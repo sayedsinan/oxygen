@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      drawer: const SidebarMenu(), // drawer for mobile
+      drawer: const SidebarMenu(), 
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isMobile = constraints.maxWidth < 800;
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       children: [
                         if (!isMobile)
-                          const SidebarMenu(), // only show sidebar on large screens
+                          const SidebarMenu(), 
 
                         Expanded(
                           child: Stack(
@@ -49,10 +49,11 @@ class HomePage extends StatelessWidget {
                                         Container(
                                           width: double.infinity,
                                           padding: EdgeInsets.fromLTRB(
-                                              isMobile ? 20 : 40,
-                                              30,
-                                              isMobile ? 20 : 40,
-                                              100),
+                                            isMobile ? 20 : 40,
+                                            30,
+                                            isMobile ? 20 : 40,
+                                            100,
+                                          ),
                                           decoration: const BoxDecoration(
                                             color: Color(0xFF0A1F5C),
                                             borderRadius: BorderRadius.only(
@@ -104,22 +105,16 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Dim overlay for search
               Obx(() {
-                if (!controller.showSearchOverlay.value)
+                if (!controller.showSearchOverlay.value) {
                   return const SizedBox.shrink();
-
+                }
                 return GestureDetector(
                   onTap: () => controller.toggleOverlay(false),
-                  child: Container(
-                    color: Colors.black.withOpacity(0.4),
-                  ),
+                  child: Container(color: Colors.black.withOpacity(0.4)),
                 );
               }),
-
-              // Search overlay bubble
-               SearchOverlayBar(),
+              SearchOverlayBar(),
             ],
           );
         },

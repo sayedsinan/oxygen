@@ -21,7 +21,7 @@ class TodayAppointmentsSection extends StatelessWidget {
             spacing: 16, 
             runSpacing: 16, 
             children: List.generate(
-              3,
+              4,
               (index) => SizedBox(
                 width: isMobile ? double.infinity : 300,
                 child: const ProfileCard(),

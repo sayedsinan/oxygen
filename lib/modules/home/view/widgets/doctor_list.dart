@@ -10,7 +10,7 @@ class DoctorsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('MOST POPULAR DOCTORS', style: TextStyle(color: Colors.grey.shade600, fontSize: 11)),
+        Text('MOST POPULAR DOCTORS', style: TextStyle(color: Colors.blue.shade600, fontSize: 11)),
         const SizedBox(height: 12),
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),

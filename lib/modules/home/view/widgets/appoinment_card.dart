@@ -9,16 +9,14 @@ class ProfileCard extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 800;
 
-    // Responsive width logic
     double cardWidth;
     if (isMobile) {
       cardWidth = double.infinity;
     } else if (screenWidth < 1300) {
-      // Between 950 - 1299, fit 2 cards per row with spacing
-      cardWidth = (screenWidth - 64 - 16) / 2; // 64 = padding, 16 = spacing
+      cardWidth = (screenWidth - 64 - 16) / 2; 
       cardWidth = min(cardWidth, 300);
     } else {
-      cardWidth = 300; // large screens
+      cardWidth = 300; 
     }
 
     return Container(
@@ -39,7 +37,6 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Profile header
           Padding(
             padding: const EdgeInsets.all(8),
             child: isMobile
@@ -47,21 +44,14 @@ class ProfileCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 100,
-                        height: 100,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.grey[300]!, width: 2),
-                        ),
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.greenAccent,
-                          child: Text(
-                            'WW',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          image: const DecorationImage(
+                            image: AssetImage('assets/Image (1).png'),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -93,21 +83,14 @@ class ProfileCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 100,
-                        height: 100,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.grey[300]!, width: 2),
-                        ),
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.greenAccent,
-                          child: Text(
-                            'WW',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          image: const DecorationImage(
+                            image: AssetImage('assets/Image (1).png'),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -139,7 +122,6 @@ class ProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           const Divider(height: 1, color: Colors.grey),
           const SizedBox(height: 16),
-          // Details
           Padding(
             padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 24),
             child: Column(
