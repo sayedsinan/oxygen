@@ -84,7 +84,7 @@ class ProfileCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0,right: 10),
             child: Divider(height: 1, color: Colors.grey[300]),
           ),
-          // Details section
+  
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
