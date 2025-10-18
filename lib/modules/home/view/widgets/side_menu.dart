@@ -46,7 +46,7 @@ class SidebarMenu extends StatelessWidget {
     }
 
     // 💡 For tablet and desktop screens, show sidebar
-    double sidebarWidth = isTablet ? 140 : 200;
+    double sidebarWidth = isTablet ? 20 : 80;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -77,31 +77,31 @@ class SidebarMenu extends StatelessWidget {
               children: [
                 _buildMenuItem(
                   icon: "assets/home.png",
-                  label: 'Home',
+                  label: '',
                   isActive: true,
                   isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/clip.png",
-                  label: 'Appointments',
+                  label: '',
                   isActive: false,
                   isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/doctor-01.png",
-                  label: 'Doctors',
+                  label: '',
                   isActive: false,
                   isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/patient.png",
-                  label: 'Patients',
+                  label: '',
                   isActive: false,
                   isCompact: isTablet,
                 ),
                 _buildMenuItem(
                   icon: "assets/invoice-04.png",
-                  label: 'Bills',
+                  label: '',
                   isActive: false,
                   isCompact: isTablet,
                 ),

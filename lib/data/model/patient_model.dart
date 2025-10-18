@@ -2,12 +2,14 @@ class Patient {
   final int id;
   final String name;
   final String gender;
+   final String? status; // Add this
   final String phone;
 
   Patient({
     required this.id,
     required this.name,
     required this.gender,
+     this.status,
     required this.phone,
   });
 

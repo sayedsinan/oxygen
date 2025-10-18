@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oxygen/data/model/doctor_model.dart';
 import 'package:oxygen/modules/home/controller/home_controller.dart';
+import 'package:oxygen/modules/home/view/widgets/doctor_list.dart';
+import 'package:oxygen/modules/home/view/widgets/doctor_tile.dart';
 
 class SearchResultsList extends StatelessWidget {
   final HomeController controller;
@@ -17,9 +20,10 @@ class SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final hasResults = controller.filteredPatients.isNotEmpty || 
-                        controller.filteredDoctors.isNotEmpty;
-      
+      final hasResults =
+          controller.filteredPatients.isNotEmpty ||
+          controller.filteredDoctors.isNotEmpty;
+
       if (controller.searchQuery.isEmpty) {
         return const SizedBox.shrink();
       }
@@ -36,16 +40,13 @@ class SearchResultsList extends StatelessWidget {
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
-              )
+              ),
             ],
           ),
           child: Center(
             child: Text(
               'No results found for "${controller.searchQuery.value}"',
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
           ),
         );
@@ -62,7 +63,7 @@ class SearchResultsList extends StatelessWidget {
               color: Colors.black.withOpacity(0.1),
               blurRadius: 20,
               offset: const Offset(0, 8),
-            )
+            ),
           ],
         ),
         child: SingleChildScrollView(
@@ -82,12 +83,12 @@ class SearchResultsList extends StatelessWidget {
                     ),
                   ),
                 ),
-                ...controller.filteredPatients.map((patient) => 
-                  _buildPatientTile(patient)
+                ...controller.filteredPatients.map(
+                  (patient) => _buildPatientTile(patient),
                 ),
                 const Divider(height: 1),
               ],
-              
+
               // Doctors Section
               if (controller.filteredDoctors.isNotEmpty) ...[
                 Padding(
@@ -101,8 +102,8 @@ class SearchResultsList extends StatelessWidget {
                     ),
                   ),
                 ),
-                ...controller.filteredDoctors.map((doctor) => 
-                  _buildDoctorTile(doctor)
+                ...controller.filteredDoctors.map(
+                  (doctor) => _buildDoctorTile(doctor),
                 ),
               ],
             ],
@@ -114,30 +115,34 @@ class SearchResultsList extends StatelessWidget {
 
   Widget _buildPatientTile(patient) {
     final isSelected = controller.selectedPatient.value == patient.name;
-    
+
     return InkWell(
       onTap: () {
         controller.selectPatient(patient.name);
-        controller.searchQuery.value = '';  // Clear search first
+        controller.searchQuery.value = '';
         controller.filteredPatients.clear();
         controller.filteredDoctors.clear();
-        // Don't close overlay - let user see the chip
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFE91E63).withOpacity(0.1) : null,
+          color: isSelected ? const Color(0xFFE91E63).withOpacity(0.05) : null,
+          border: Border(
+            bottom: BorderSide(color: Colors.grey[200]!, width: 0.5),
+          ),
         ),
         child: Row(
           children: [
             CircleAvatar(
-              radius: 20,
-              backgroundColor: const Color(0xFFE91E63).withOpacity(0.2),
+              radius: 24,
+              backgroundColor: Colors.grey[300],
+
               child: Text(
                 patient.name[0].toUpperCase(),
                 style: const TextStyle(
-                  color: Color(0xFFE91E63),
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -150,93 +155,120 @@ class SearchResultsList extends StatelessWidget {
                     patient.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                      fontSize: 15,
+                      color: Color(0xFF2C3E50),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
-                    '${patient.gender} • ${patient.phone}',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
-                    ),
+                    'ID${patient.id} • ${patient.phone}',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
                   ),
                 ],
               ),
             ),
-            if (isSelected)
-              const Icon(
-                Icons.check_circle,
-                color: Color(0xFFE91E63),
-                size: 20,
-              ),
+            const SizedBox(width: 12),
+            _buildStatusDropdown(patient),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDoctorTile(doctor) {
-    final isSelected = controller.selectedDoctor.value == doctor.name;
-    
-    return InkWell(
-      onTap: () {
-        controller.selectDoctor(doctor.name);
-        controller.searchQuery.value = '';  // Clear search first
-        controller.filteredPatients.clear();
-        controller.filteredDoctors.clear();
-        // Don't close overlay - let user see the chip
+  Widget _buildStatusDropdown(patient) {
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        // Update patient status
+        controller.updatePatientStatus(patient.id, value);
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? doctor.color.withOpacity(0.1) : null,
+      itemBuilder: (BuildContext context) => [
+        const PopupMenuItem<String>(
+          value: 'booked',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [Text('Booked')],
+          ),
         ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: doctor.color,
-              child: Text(
-                doctor.initial,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    doctor.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    doctor.specialty,
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (isSelected)
-              Icon(
-                Icons.check_circle,
-                color: doctor.color,
-                size: 20,
-              ),
-          ],
+        const PopupMenuItem<String>(
+          value: 'checked_in',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle, color: Color(0xFF4CAF50), size: 16),
+              SizedBox(width: 8),
+              Text('Check In'),
+            ],
+          ),
+        ),
+        const PopupMenuItem<String>(
+          value: 'close',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.close, color: Color(0xFFE91E63), size: 16),
+              SizedBox(width: 8),
+              Text('Close'),
+            ],
+          ),
+        ),
+      ],
+      child: _buildStatusBadge(patient.status ?? 'booked'),
+    );
+  }
+
+  Widget _buildStatusBadge(String status) {
+    final statusMap = {
+      'booked': {
+        'label': 'Booked',
+        'bgColor': Colors.white,
+        'textColor': const Color(0xFFE91E63),
+        'borderColor': const Color(0xFFE91E63),
+      },
+      'checked_in': {
+        'label': 'Checked In',
+        'bgColor': Colors.white,
+        'textColor': const Color(0xFFFFA500),
+        'borderColor': const Color(0xFFFFA500),
+      },
+      'close': {
+        'label': 'Close',
+        'bgColor': const Color(0xFFE91E63),
+        'textColor': Colors.white,
+      },
+    };
+
+    final config = statusMap[status] ?? statusMap['booked']!;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: config['bgColor'] as Color,
+        border: config.containsKey('borderColor')
+            ? Border.all(color: config['borderColor'] as Color, width: 1.5)
+            : null,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        config['label'] as String,
+        style: TextStyle(
+          color: config['textColor'] as Color,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
   }
+
+
+Widget _buildDoctorTile(Doctor doctor) {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: DoctorTile(doctor: doctor, controller: controller),
+  );
+}
+
+
+  // Add this method to your HomeController to search by category/specialty
+  
+  // Update your search box to support category search
 }

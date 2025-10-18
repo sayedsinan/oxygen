@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:oxygen/modules/home/view/widgets/my_button.dart';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({super.key});
@@ -13,10 +14,10 @@ class ProfileCard extends StatelessWidget {
     if (isMobile) {
       cardWidth = double.infinity;
     } else if (screenWidth < 1300) {
-      cardWidth = (screenWidth - 64 - 16) / 2; 
+      cardWidth = (screenWidth - 64 - 16) / 2;
       cardWidth = min(cardWidth, 300);
     } else {
-      cardWidth = 300; 
+      cardWidth = 300;
     }
 
     return Container(
@@ -131,16 +132,22 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Token',
-                          style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500)),
-                      Text('08',
-                          style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        'Token',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '08',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -149,16 +156,22 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Gender',
-                          style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500)),
-                      Text('Male',
-                          style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        'Gender',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        'Male',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -167,17 +180,63 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Doctor',
+                      Text(
+                        'Doctor',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Arlene McCoy',
                           style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500)),
-                      Text('Arlene McCoy',
-                          style: TextStyle(
-                              fontSize: isMobile ? 14 : 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                            fontSize: isMobile ? 14 : 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.right,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '09-10-2023',
+                        style: TextStyle(
+                          fontSize: isMobile ? 14 : 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: MyButton(
+                    width: 100,
+                    height: 40,
+                    text: 'Booked',
+                    showArrow: true,
+                    onPressed: () {},
+                    textStyle: const TextStyle(fontSize: 12),
                   ),
                 ),
               ],

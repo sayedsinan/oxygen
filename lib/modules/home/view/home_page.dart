@@ -4,10 +4,10 @@ import 'package:oxygen/app/theme/app_text_style.dart';
 import 'package:oxygen/modules/home/controller/home_controller.dart';
 import 'package:oxygen/modules/home/view/widgets/app_bar.dart';
 import 'package:oxygen/modules/home/view/widgets/appointment_seciton.dart';
+import 'package:oxygen/modules/home/view/widgets/booking_card.dart';
 import 'package:oxygen/modules/home/view/widgets/floating_search_bar.dart';
 import 'package:oxygen/modules/home/view/widgets/search_overlay_bar.dart';
 import 'package:oxygen/modules/home/view/widgets/side_menu.dart';
-import 'package:oxygen/modules/home/view/widgets/stat_section.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      drawer: const SidebarMenu(), 
+      drawer: const SidebarMenu(),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isMobile = constraints.maxWidth < 800;
@@ -31,73 +31,89 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        if (!isMobile)
-                          const SidebarMenu(), 
-
+                        if (!isMobile) const SidebarMenu(),
                         Expanded(
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Blue header + floating search bar
+                                Stack(
+                                  clipBehavior: Clip.none,
                                   children: [
-                                    // Blue header + floating search bar
-                                    Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          padding: EdgeInsets.fromLTRB(
-                                            isMobile ? 20 : 40,
-                                            30,
-                                            isMobile ? 20 : 40,
-                                            100,
-                                          ),
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFF0A1F5C),
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: const [
+                                    Container(
+                                      width: double.infinity,
+                                      padding: EdgeInsets.fromLTRB(
+                                        isMobile ? 20 : 40,
+                                        30,
+                                        isMobile ? 20 : 40,
+                                        100,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF0A1F5C),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
                                               Text(
                                                 'Register, Manage & Track',
                                                 style: AppTextStyles.h1,
                                               ),
-                                              SizedBox(height: 8),
-                                              Text(
-                                                'Access, Update and track all patients Update',
-                                                style: TextStyle(
-                                                  color: Colors.white70,
-                                                  fontSize: 14,
+                                              if (!isMobile) ...[
+                                                const Spacer(),
+                                                BookedCard(
+                                                  bookings: 200,
+                                                  color: Colors.red,
+                                                  name: "Booked",
                                                 ),
-                                              ),
+                                                const SizedBox(width: 16),
+                                                BookedCard(
+                                                  bookings: 110,
+                                                  name: "Check-in",
+                                                  color: Colors.yellow,
+                                                ),
+                                                const SizedBox(width: 16),
+                                                BookedCard(
+                                                  bookings: 72,
+                                                  color: Colors.green,
+                                                  name: "Completed",
+                                                ),
+                                              ],
                                             ],
                                           ),
-                                        ),
-                                        Positioned(
-                                          bottom: -35,
-                                          left: isMobile ? 20 : 60,
-                                          right: isMobile ? 20 : 60,
-                                          child: const Center(
-                                            child: FloatingSearchBar(),
+                                          const SizedBox(height: 8),
+                                          const Text(
+                                            'Access, Update and track all patients Update',
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(height: 80),
-                                    const StatisticsSection(),
-                                    const TodayAppointmentsSection(),
-                                    const SizedBox(height: 120),
+                                    Positioned(
+                                      bottom: -35,
+                                      left: isMobile ? 20 : 60,
+                                      right: isMobile ? 20 : 60,
+                                      child: const Center(
+                                        child: FloatingSearchBar(),
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 80),
+                                const TodayAppointmentsSection(),
+                                const SizedBox(height: 120),
+                              ],
+                            ),
                           ),
                         ),
                       ],

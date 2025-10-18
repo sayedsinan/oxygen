@@ -13,12 +13,31 @@ class SearchOverlayBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final bubbleWidth = width > 600 ? 600.0 : width * 0.95;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // 📱 Responsiveness breakpoints
+    final bool isMobile = screenWidth < 600;
+    final bool isTablet = screenWidth >= 600 && screenWidth < 1024;
+    final bool isDesktop = screenWidth >= 1024;
+
+    // 🎨 Adjust bubble dimensions dynamically
+    final double bubbleWidth = isMobile
+        ? screenWidth * 0.9
+        : isTablet
+            ? screenWidth * 0.75
+            : 750; // for desktop
+
+    final double bubbleHeight = isMobile
+        ? screenHeight * 0.6
+        : isTablet
+            ? screenHeight * 0.7
+            : 588;
 
     return Obx(() {
       if (!controller.showSearchOverlay.value) return const SizedBox.shrink();
 
+      // Listen to reactive variables to rebuild properly
       final _ = controller.selectedDoctor.value;
       final __ = controller.selectedDate.value;
       final ___ = controller.selectedPatient.value;
@@ -26,7 +45,7 @@ class SearchOverlayBar extends StatelessWidget {
 
       return Stack(
         children: [
-
+          // 🔹 Dim background
           Positioned.fill(
             child: GestureDetector(
               onTap: () => controller.toggleOverlay(false),
@@ -34,42 +53,49 @@ class SearchOverlayBar extends StatelessWidget {
             ),
           ),
 
-
+          // 🔹 Centered floating search bubble
           Positioned(
-            top: 90,
-            left: (width - bubbleWidth) / 2,
+            top: isMobile ? 10 : 20,
+            left: (screenWidth - bubbleWidth) / 2,
             width: bubbleWidth,
-            child: SelectedChipsRow(
-              controller: controller,
-              width: bubbleWidth,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 8 : 0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SelectedChipsRow(
+                      controller: controller,
+                      width: bubbleWidth,
+                    ),
+                    SizedBox(height: isMobile ? 12 : 20),
+                    SearchFieldBubble(
+                      controller: controller,
+                      width: bubbleWidth,
+                    ),
+                    SizedBox(height: isMobile ? 24 : 40),
+                    SizedBox(
+                      width: bubbleWidth,
+                      height: bubbleHeight,
+                      child: controller.searchQuery.isEmpty
+                          ? CombinedBubble(
+                              controller: controller,
+                              width: bubbleWidth,
+                              height: bubbleHeight,
+                            )
+                          : SearchResultsList(
+                              controller: controller,
+                              width: bubbleWidth,
+                              height: bubbleHeight,
+                            ),
+                    ),
+                    SizedBox(height: isMobile ? 24 : 40),
+                  ],
+                ),
+              ),
             ),
-          ),
-
-          Positioned(
-            top: 160,
-            left: (width - bubbleWidth) / 2,
-            width: bubbleWidth,
-            child: SearchFieldBubble(
-              controller: controller,
-              width: bubbleWidth,
-            ),
-          ),
-          Positioned(
-            top: 250,
-            left: (width - bubbleWidth) / 2,
-            width: bubbleWidth,
-            height: 400,
-            child: controller.searchQuery.isEmpty
-                ? CombinedBubble(
-                    controller: controller,
-                    width: bubbleWidth,
-                    height: 400,
-                  )
-                : SearchResultsList(
-                    controller: controller,
-                    width: bubbleWidth,
-                    height: 400,
-                  ),
           ),
         ],
       );

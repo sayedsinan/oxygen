@@ -61,7 +61,7 @@ class SearchFieldBubble extends StatelessWidget {
                   color: Colors.grey,
                   fontWeight: FontWeight.w400,
                 ),
-                // ✅ Removes *all* borders and padding issues
+             
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,

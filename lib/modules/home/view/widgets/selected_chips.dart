@@ -15,58 +15,96 @@ class SelectedChipsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final hasSelections =
-          controller.selectedPatient.value.isNotEmpty ||
-          controller.selectedDoctor.value.isNotEmpty ||
-          controller.selectedDate.value.isNotEmpty;
+      final chips = _buildSelectedChips();
 
-      if (!hasSelections) return const SizedBox.shrink();
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final isSmallScreen = constraints.maxWidth < 600;
 
-      return SizedBox(
-        width: width,
-        child: Row(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    ..._buildSelectedChips()
-                        .map((chip) => Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: chip,
-                            ))
-                        .toList(),
-                  ],
+          if (isSmallScreen) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (chips.isNotEmpty)
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: chips,
+                  ),
+                SizedBox(height: chips.isNotEmpty ? 12 : 0),
+                SizedBox(
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () => _handleBooking(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE91E63),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text('Book'),
+                  ),
                 ),
-              ),
+              ],
+            );
+          }
+
+          return SizedBox(
+            width: width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: chips.isEmpty
+                      ? const SizedBox.shrink()
+                      : Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: chips,
+                        ),
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: () => _handleBooking(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFE91E63),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    fixedSize: const Size(215, 55),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                  ),
+                  child: const Text('Book'),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE91E63),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 12,
-                ),
-              ),
-              child: const Text('Book'),
-            ),
-          ],
-        ),
+          );
+        },
       );
+    });
+  }
+
+  void _handleBooking() {
+    controller.isBookingSuccessful.value = true;
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      controller.selectedPatient.value = '';
+      controller.selectedDoctor.value = '';
+      controller.selectedDate.value = '';
+      controller.selectedSlot.value = '';
+      controller.selectedDateIndex.value = 4;
     });
   }
 
   List<Widget> _buildSelectedChips() {
     final chips = <Widget>[];
 
-    // Patient Chip
     if (controller.selectedPatient.value.isNotEmpty) {
       chips.add(
         _buildChip(
@@ -77,7 +115,6 @@ class SelectedChipsRow extends StatelessWidget {
       );
     }
 
-    // Doctor Chip
     if (controller.selectedDoctor.value.isNotEmpty) {
       chips.add(
         _buildChip(
@@ -88,7 +125,6 @@ class SelectedChipsRow extends StatelessWidget {
       );
     }
 
-    // Date Chip
     if (controller.selectedDate.value.isNotEmpty) {
       chips.add(
         _buildChip(
@@ -126,7 +162,7 @@ class SelectedChipsRow extends StatelessWidget {
               color: const Color(0xFFD1D5E8),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.check, size: 18, color: Color(0xFF5B6B9E)),
+            child:  Image.asset("assets/tick.png", width: 16, height: 16 ),
           ),
           const SizedBox(width: 12),
           Column(
